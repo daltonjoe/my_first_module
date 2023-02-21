@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+
+    <record id="hospital_patient_tree_view" model="ir.ui.view">
+        <field name="name">hospital.patient.tree</field>
+        <field name="model">hospital.patient</field>
+        <field name="priority">10</field>
+        <field name="arch" type="xml">
+            <tree string="Patients">
+                <field name="name" />
+                <field name="gender" />
+                <field name="responsible_id" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="hospital_patient_form_view" model="ir.ui.view">
+        <field name="name">hospital.patient.form</field>
+        <field name="model">hospital.patient</field>
+        <field name="priority">10</field>
+        <field name="arch" type="xml">
+            <form string="Price Patients">
+                <sheet>
+                    <field name="image" widget="image" class="oe_avatar" />
+                    <div class="oe_title">
+
+                        <label for='name' string="Patient Name" />
+                        <h1>
+                            <field name="name" placeholder="e.g John Doe" required="True" />
+                        </h1>
+                    </div>
+                    <group>
+                        <field name="age" />
+                        <!-- <field name="doctor_ids" widget="many2many_tags"/> -->
+                        <!--invisible="1"-->
+                        <field name="gender" />
+                        <!--readonly="1"-->                            <!--required="1"-->
+                        <field name="responsible_id" context="{'default_company_type':'company'}"
+                            domain="[('is_company', '=', True)]" options="{'no_create':1}" />
+                        <!-- Sırasıyla  context, domain, options-->
+                        <!-- Daha sonra invisible,readonly,required ve enson attrs -->
+                        <!-- <field name="appointment_count" /> -->
+
+                    </group>
+                    <notebook>
+                        <page string="Appointments" name="appointment_ids">
+                            <field name="appointment_ids">
+                                <tree string="Appointments">
+                                    <field name="name" />
+                                    <field name="patient_id" />
+                                    <field name="doctor_id" />
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+
+            </form>
+        </field>
+    </record>
+
+    <record id="action_hospital_patient" model="ir.actions.act_window">
+        <field name="name">Patients</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">hospital.patient</field>
+        <field name="view_mode">form,tree</field>
+        <!--searc
+        view anlatıldıktan sonra burayı ekle bura eklenmediğinde default search gelir-->
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new patient
+            </p>
+        </field>
+        <!-- en son bu kısmı anlatarak view kısmını bitir -->
+        <!-- <field name="domain">[('gender', '!=', 'other')]</field>
+        <field name="context">{'search_default_groupby_gender': 1}</field> -->
+    </record>
+
+</odoo>
